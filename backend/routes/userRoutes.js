@@ -2,28 +2,31 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 
-router.post("/register", async (req, res) => {
-  const { username, password } = req.body;
-  const exists = await User.findOne({ username });
-  if (exists) return res.status(400).json({ message: "Username already taken" });
+router.post("/sync", async (req, res) => {
+  const { email, username } = req.body;
+  if (!email || !username) return res.status(400).json({ message: "Missing email or username" });
 
-  const user = await User.create({ username, password });
-  res.json({ message: "User registered", user });
+  let user = await User.findOne({ email });
+  if (!user) {
+    user = await User.create({ email, username });
+  }
+
+  req.app.get("loggedInUser").set(user.username);
+
+  res.json(user);
 });
 
-router.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username });
-  if (!user || user.password !== password)
-    return res.status(401).json({ message: "Invalid credentials" });
+router.get("/by-email", async (req, res) => {
+  const { email } = req.query;
+  if (!email) return res.status(400).json({ message: "Missing email" });
 
-  req.app.get("loggedInUser").set(username);
-  res.json({ message: "Logged in", username });
+  const user = await User.findOne({ email });
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  req.app.get("loggedInUser").set(user.username);
+
+  res.json(user);
 });
 
-router.post("/logout", (req, res) => {
-  req.app.get("loggedInUser").clear();
-  res.json({ message: "Logged out" });
-});
 
 module.exports = router;

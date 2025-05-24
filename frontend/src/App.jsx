@@ -1,36 +1,46 @@
-// src/App.jsx
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
+import SignIn from "./views/SignIn";
+import SignUp from "./views/SignUp";
 import HomeView from "./views/HomeView";
+import FeedView from "./views/FeedView";
 import PostsView from "./views/PostsView";
 import GroupsView from "./views/GroupsView";
-import FeedView from "./views/FeedView";
 import CreatePostView from "./views/CreatePostView";
+import Navbar from "./components/NavBar";
 
-// Add login
-// Add update group
+const ProtectedRoute = ({ children, setUser }) => {
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+    if (currentUser?.displayName) {
+      setUser(currentUser.displayName);
+    }
+  }, [currentUser, setUser]);
+
+  return currentUser ? children : <Navigate to="/signin" />;
+};
+
 function App() {
-  const username = "alice"; // Simulate login
+  const [user, setUser] = useState("No Username");
 
   return (
-    <Router>
-      <nav style={{ padding: "1rem", background: "#f0f0f0", marginBottom: "1rem" }}>
-        <Link to="/" style={{ margin: "0 10px" }}>Home</Link>
-        <Link to="/posts" style={{ margin: "0 10px" }}>Posts</Link>
-        <Link to="/create" style={{ margin: "0 10px" }}>Create Post</Link>
-        <Link to="/groups" style={{ margin: "0 10px" }}>Groups</Link>
-        <Link to="/feed" style={{ margin: "0 10px" }}>Feed</Link>
-      </nav>
-
-      <Routes>
-        <Route path="/" element={<HomeView />} />
-        <Route path="/posts" element={<PostsView username={username} />} />
-        <Route path="/create" element={<CreatePostView username={username} />} />
-        <Route path="/groups" element={<GroupsView username={username} />} />
-        <Route path="/feed" element={<FeedView username={username} />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar user={user} />
+        <Routes>
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/" element={<ProtectedRoute setUser={setUser}><HomeView /></ProtectedRoute>} />
+          <Route path="/feed" element={<ProtectedRoute setUser={setUser}><FeedView username={user} /></ProtectedRoute>} />
+          <Route path="/posts" element={<ProtectedRoute setUser={setUser}><PostsView username={user} /></ProtectedRoute>} />
+          <Route path="/create" element={<ProtectedRoute setUser={setUser}><CreatePostView username={user} /></ProtectedRoute>} />
+          <Route path="/groups" element={<ProtectedRoute setUser={setUser}><GroupsView username={user} /></ProtectedRoute>} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

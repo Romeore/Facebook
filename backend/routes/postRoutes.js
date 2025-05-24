@@ -15,7 +15,7 @@ router.post("/", auth, async (req, res) => {
 
 // api/posts
 router.get("/", auth, async (req, res) => {
-  const posts = await Post.find({ author: req.username }).populate("group", "name");
+  const posts = await Post.find({ author: req.headers.username }).populate("group", "name");
   res.json(posts);
 });
 
@@ -24,7 +24,7 @@ router.get("/", auth, async (req, res) => {
 router.get("/feed", auth, async (req, res) => {
   const { groupName, author, title } = req.query;
 
-  const groups = await Group.find({ members: req.username });
+  const groups = await Group.find({ members: req.headers.username });
   const groupIds = groups.map(g => g._id);
 
   const filter = {

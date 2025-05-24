@@ -12,13 +12,15 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true
 }).then(() => console.log("MongoDB connected"));
 
-let loggedInUser = "alice";
+let loggedInUser = "adi";
 
 app.set("loggedInUser", {
   get: () => loggedInUser,
   set: (username) => { loggedInUser = username; },
   clear: () => { loggedInUser = null; }
 });
+
+console.log(loggedInUser);
 
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/posts", require("./routes/postRoutes"));
