@@ -21,3 +21,19 @@ export const getGroupMembers = async (groupId, username) => {
   const res = await axios.get(`${BASE_URL}/${groupId}/members`, { headers: { username } });
   return res.data.members;
 };
+
+export const approveMember = async (groupId, userToApprove, username) => {
+  const res = await axios.post(`${BASE_URL}/${groupId}/approve`,
+    { userToApprove },
+    { headers: { username } }
+  );
+  return res.data;
+};
+
+export const removeMember = async (groupId, userToRemove, username) => {
+  const res = await axios.post(`${BASE_URL}/${groupId}/remove`,
+    { userToRemove },
+    { headers: { username } }
+  );
+  return res.data;
+};

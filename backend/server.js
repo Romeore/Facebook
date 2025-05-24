@@ -12,7 +12,7 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true
 }).then(() => console.log("MongoDB connected"));
 
-let loggedInUser = "alice";
+let loggedInUser = "adi";
 
 app.set("loggedInUser", {
   get: () => loggedInUser,

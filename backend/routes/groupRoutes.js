@@ -16,6 +16,39 @@ router.post("/", auth, async (req, res) => {
   res.status(201).json(group);
 });
 
+router.post("/:id/approve", auth, async (req, res) => {
+  const group = await Group.findById(req.params.id);
+  const { userToApprove } = req.body;
+
+  if (group.admin !== req.username) {
+    return res.status(403).json({ message: "Only admin can approve members" });
+  }
+
+  // Move from pending to members
+  group.pending = group.pending.filter(user => user !== userToApprove);
+  if (!group.members.includes(userToApprove)) {
+    group.members.push(userToApprove);
+  }
+
+  await group.save();
+  res.json({ message: "User approved", members: group.members });
+});
+
+router.post("/:id/remove", auth, async (req, res) => {
+  const group = await Group.findById(req.params.id);
+  const { userToRemove } = req.body;
+
+  if (group.admin !== req.username) {
+    return res.status(403).json({ message: "Only admin can remove members" });
+  }
+
+  group.members = group.members.filter(user => user !== userToRemove);
+  group.pending = group.pending.filter(user => user !== userToRemove); // Just in case
+
+  await group.save();
+  res.json({ message: "User removed", members: group.members });
+});
+
 // Join a group
 router.post("/:id/join", auth, async (req, res) => {
   const group = await Group.findById(req.params.id);
@@ -25,9 +58,13 @@ router.post("/:id/join", auth, async (req, res) => {
     return res.status(400).json({ message: "Already a member" });
   }
 
-  group.members.push(req.username);
+  if (group.pending.includes(req.username)) {
+    return res.status(400).json({ message: "Request already pending" });
+  }
+
+  group.pending.push(req.username);
   await group.save();
-  res.json({ message: "Joined group", group });
+  res.json({ message: "Join request sent", pending: group.pending });
 });
 
 // List all groups

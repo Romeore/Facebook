@@ -5,7 +5,8 @@ const groupSchema = new mongoose.Schema({
   description: String,
   isPrivate: Boolean,
   admin: String,
-  members: [String]
+  members: [String],
+  pending: [String]
 });
 
 module.exports = mongoose.model("Group", groupSchema);
