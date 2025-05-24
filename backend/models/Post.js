@@ -4,7 +4,7 @@ const postSchema = new mongoose.Schema({
   title: String,
   content: String,
   author: String,
-  group: { type: mongoose.Schema.Types.ObjectId, ref: "Group" },
+  group: { type: mongoose.Schema.Types.ObjectId, ref: "Group", default: null },
   createdAt: { type: Date, default: Date.now }
 });
 

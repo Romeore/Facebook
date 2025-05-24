@@ -67,6 +67,20 @@ router.post("/:id/join", auth, async (req, res) => {
   res.json({ message: "Join request sent", pending: group.pending });
 });
 
+router.post("/:id/leave", auth, async (req, res) => {
+  const group = await Group.findById(req.params.id);
+  if (!group) return res.status(404).json({ message: "Group not found" });
+
+  if (group.admin === req.username) {
+    return res.status(403).json({ message: "Admin cannot leave the group" });
+  }
+
+  group.members = group.members.filter(user => user !== req.username);
+  await group.save();
+
+  res.json({ message: "You left the group", members: group.members });
+});
+
 // List all groups
 router.get("/", auth, async (req, res) => {
   const groups = await Group.find();
@@ -79,6 +93,42 @@ router.get("/:id/members", auth, async (req, res) => {
   if (!group) return res.status(404).json({ message: "Group not found" });
 
   res.json({ members: group.members });
+});
+
+router.put("/:id/transfer-admin", auth, async (req, res) => {
+  const group = await Group.findById(req.params.id);
+  const { newAdmin } = req.body;
+
+  if (!group) return res.status(404).json({ message: "Group not found" });
+  if (group.admin !== req.username) {
+    return res.status(403).json({ message: "Only the current admin can transfer ownership" });
+  }
+  if (!group.members.includes(newAdmin)) {
+    return res.status(400).json({ message: "New admin must be a member" });
+  }
+
+  group.admin = newAdmin;
+  group.members = group.members.filter(user => user !== req.username); // remove old admin
+  await group.save();
+
+  res.json({ message: "Ownership transferred", group });
+});
+
+router.delete("/:id", auth, async (req, res) => {
+  const group = await Group.findById(req.params.id);
+  if (!group) return res.status(404).json({ message: "Group not found" });
+
+  if (group.admin !== req.username) {
+    return res.status(403).json({ message: "Only the admin can delete the group" });
+  }
+
+  await group.deleteOne();
+  res.json({ message: "Group deleted" });
+});
+
+router.get("/my", auth, async (req, res) => {
+  const groups = await Group.find({ members: req.username });
+  res.json(groups);
 });
 
 module.exports = router;
