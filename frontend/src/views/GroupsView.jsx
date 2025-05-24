@@ -15,7 +15,7 @@ function GroupsView({ username }) {
   const [groups, setGroups] = useState([]);
   const [selectedGroupId, setSelectedGroupId] = useState(null);
   const [members, setMembers] = useState([]);
-  const [form, setForm] = useState({ name: "", description: "", isPrivate: false });
+  const [form, setForm] = useState({ name: "", description: ""});
   const [newAdminUsername, setNewAdminUsername] = useState("");
 
   useEffect(() => {
@@ -24,7 +24,6 @@ function GroupsView({ username }) {
 
   const handleCreate = async () => {
     await createGroup(form, username);
-    setForm({ name: "", description: "", isPrivate: false });
     const updated = await fetchGroups(username);
     setGroups(updated);
   };
@@ -108,14 +107,6 @@ function GroupsView({ username }) {
         value={form.description}
         onChange={e => setForm({ ...form, description: e.target.value })}
       />
-      <label>
-        <input
-          type="checkbox"
-          checked={form.isPrivate}
-          onChange={e => setForm({ ...form, isPrivate: e.target.checked })}
-        />
-        Private Group
-      </label>
       <button onClick={handleCreate}>Create</button>
 
       <hr />
