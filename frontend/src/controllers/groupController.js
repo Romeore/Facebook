@@ -37,3 +37,36 @@ export const removeMember = async (groupId, userToRemove, username) => {
   );
   return res.data;
 };
+
+export const leaveGroup = async (groupId, username) => {
+  const res = await axios.post(`${BASE_URL}/${groupId}/leave`,
+    {},
+    { headers: { username } }
+  );
+  return res.data;
+};
+
+export const transferAdminAndLeave = async (groupId, newAdmin, username) => {
+  const res = await axios.put(`${BASE_URL}/${groupId}/transfer-admin`,
+    { newAdmin },
+    { headers: { username } }
+  );
+  return res.data;
+};
+
+export const deleteGroup = async (groupId, username) => {
+  const res = await axios.put(`${BASE_URL}/${groupId}`,
+    {
+      headers: { username }
+    }
+  );
+  return res.data;
+};
+
+export const fetchUserGroups = async (username) => {
+  const res = await axios.get(`${BASE_URL}/my`,
+    {
+    headers: { username }
+    });
+  return res.data;
+};

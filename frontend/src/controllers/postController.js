@@ -18,10 +18,10 @@ export const createPost = async (data, username) => {
   return response.data;
 };
 
-export const getFeedPosts = async (username) => {
+export const getFeedPosts = async (username, filters = {}) => {
   const res = await axios.get("http://localhost:5000/api/posts/feed", {
-    headers: { username }
+    headers: { username },
+    params: filters
   });
   return res.data;
 };
-

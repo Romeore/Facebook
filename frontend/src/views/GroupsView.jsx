@@ -5,7 +5,10 @@ import {
   joinGroup,
   getGroupMembers,
   approveMember,
-  removeMember
+  removeMember,
+  leaveGroup,
+  transferAdminAndLeave,
+  deleteGroup
 } from "../controllers/groupController";
 
 function GroupsView({ username }) {
@@ -13,6 +16,7 @@ function GroupsView({ username }) {
   const [selectedGroupId, setSelectedGroupId] = useState(null);
   const [members, setMembers] = useState([]);
   const [form, setForm] = useState({ name: "", description: "", isPrivate: false });
+  const [newAdminUsername, setNewAdminUsername] = useState("");
 
   useEffect(() => {
     fetchGroups(username).then(setGroups);
@@ -49,6 +53,43 @@ function GroupsView({ username }) {
     setGroups(updated);
     if (groupId === selectedGroupId) {
       handleViewMembers(groupId);
+    }
+  };
+
+  const handleLeaveGroup = async (groupId) => {
+    await leaveGroup(groupId, username);
+    const updated = await fetchGroups(username);
+    setGroups(updated);
+    if (groupId === selectedGroupId) {
+      setSelectedGroupId(null);
+      setMembers([]);
+    }
+  };
+
+  const handleTransferAndLeave = async (groupId) => {
+    if (!newAdminUsername) {
+      alert("Select a new admin before transferring ownership.");
+      return;
+    }
+    await transferAdminAndLeave(groupId, newAdminUsername, username);
+    const updated = await fetchGroups(username);
+    setGroups(updated);
+    if (groupId === selectedGroupId) {
+      setSelectedGroupId(null);
+      setMembers([]);
+    }
+    setNewAdminUsername("");
+  };
+
+  const handleDeleteGroup = async (groupId) => {
+    if (window.confirm("Are you sure you want to delete this group? This action cannot be undone.")) {
+      await deleteGroup(groupId, username);
+      const updated = await fetchGroups(username);
+      setGroups(updated);
+      if (groupId === selectedGroupId) {
+        setSelectedGroupId(null);
+        setMembers([]);
+      }
     }
   };
 
@@ -93,7 +134,12 @@ function GroupsView({ username }) {
               <button onClick={() => handleJoin(group._id)}>Request to Join</button>}
 
             {group.members.includes(username) && (
-              <button onClick={() => handleViewMembers(group._id)}>View Members</button>
+              <>
+                <button onClick={() => handleViewMembers(group._id)}>View Members</button>
+                {group.admin !== username && (
+                  <button onClick={() => handleLeaveGroup(group._id)}>Leave Group</button>
+                )}
+              </>
             )}
 
             {selectedGroupId === group._id && (
@@ -122,6 +168,42 @@ function GroupsView({ username }) {
                     </li>
                   ))}
                 </ul>
+              </>
+            )}
+
+            {group.admin === username && group.members.length > 1 && (
+              <>
+                <p><strong>Transfer Ownership & Leave:</strong></p>
+                <select
+                  value={newAdminUsername}
+                  onChange={e => setNewAdminUsername(e.target.value)}
+                >
+                  <option value="">-- Select new admin --</option>
+                  {group.members
+                    .filter(m => m !== group.admin)
+                    .map((m, i) => (
+                      <option key={i} value={m}>{m}</option>
+                    ))}
+                </select>
+                <button onClick={() => handleTransferAndLeave(group._id)}>
+                  Transfer & Leave
+                </button>
+              </>
+            )}
+
+            {group.admin === username && (
+              <>
+                <br />
+                <button
+                  onClick={() => handleDeleteGroup(group._id)}
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    marginTop: "10px"
+                  }}
+                >
+                  Delete Group
+                </button>
               </>
             )}
           </li>

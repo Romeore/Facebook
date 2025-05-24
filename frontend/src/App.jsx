@@ -11,7 +11,7 @@ import CreatePostView from "./views/CreatePostView";
 // Add login
 // Add update group
 function App() {
-  const username = "adi"; // Simulate login
+  const username = "alice"; // Simulate login
 
   return (
     <Router>
