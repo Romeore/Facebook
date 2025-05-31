@@ -38,7 +38,6 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-
 router.post("/", auth, async (req, res) => {
   const { title, content, group } = req.body;
   console.log(req.body);
@@ -88,5 +87,32 @@ router.get("/feed", auth, async (req, res) => {
   res.json(posts);
 });
 
+// GET /api/posts/stats
+router.get("/stats", auth, async (req, res) => {
+  const stats = await Post.aggregate([
+    {
+      $group: {
+        _id: {
+          day: {
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+          }
+        },
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $project: {
+        day: "$_id.day",
+        count: 1,
+        _id: 0
+      }
+    },
+    {
+      $sort: { day: 1 }
+    }
+  ]);
+
+  res.json(stats);
+});
 
 module.exports = router;

@@ -9,6 +9,7 @@ import FeedView from "./views/FeedView";
 import PostsView from "./views/PostsView";
 import GroupsView from "./views/GroupsView";
 import CreatePostView from "./views/CreatePostView";
+import StatsView from "./views/StatsView"; // <-- added
 import Navbar from "./components/NavBar";
 
 const ProtectedRoute = ({ children, setUser }) => {
@@ -33,11 +34,54 @@ function App() {
         <Routes>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/" element={<ProtectedRoute setUser={setUser}><HomeView /></ProtectedRoute>} />
-          <Route path="/feed" element={<ProtectedRoute setUser={setUser}><FeedView username={user} /></ProtectedRoute>} />
-          <Route path="/posts" element={<ProtectedRoute setUser={setUser}><PostsView username={user} /></ProtectedRoute>} />
-          <Route path="/create" element={<ProtectedRoute setUser={setUser}><CreatePostView username={user} /></ProtectedRoute>} />
-          <Route path="/groups" element={<ProtectedRoute setUser={setUser}><GroupsView username={user} /></ProtectedRoute>} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute setUser={setUser}>
+                <HomeView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/feed"
+            element={
+              <ProtectedRoute setUser={setUser}>
+                <FeedView username={user} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/posts"
+            element={
+              <ProtectedRoute setUser={setUser}>
+                <PostsView username={user} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute setUser={setUser}>
+                <CreatePostView username={user} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/groups"
+            element={
+              <ProtectedRoute setUser={setUser}>
+                <GroupsView username={user} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/stats"
+            element={
+              <ProtectedRoute setUser={setUser}>
+                <StatsView username={user} />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

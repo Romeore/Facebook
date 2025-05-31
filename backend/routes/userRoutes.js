@@ -6,7 +6,18 @@ router.post("/sync", async (req, res) => {
   const { email, username } = req.body;
   if (!email || !username) return res.status(400).json({ message: "Missing email or username" });
 
-  let user = await User.findOne({ email });
+  const existingUserByEmail = await User.findOne({ email });
+  const existingUserByUsername = await User.findOne({ username });
+
+  if (existingUserByEmail && existingUserByUsername) {
+    return res.status(200).json(existingUserByEmail);
+  }
+
+  if (existingUserByUsername && !existingUserByEmail) {
+    return res.status(400).json({ message: "Username already exists" });
+  }
+
+  let user = existingUserByEmail;
   if (!user) {
     user = await User.create({ email, username });
   }

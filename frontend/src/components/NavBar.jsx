@@ -20,8 +20,10 @@ function Navbar() {
           <Link to="/posts">My Posts</Link>
           <Link to="/create">Create Post</Link>
           <Link to="/groups">Groups</Link>
+          <Link to="/stats">Stats</Link>
           <span style={{ marginLeft: "auto" }}>
-            {currentUser.displayName || currentUser.email} | <button onClick={handleLogout}>Logout</button>
+            {currentUser.displayName || currentUser.email} |{" "}
+            <button onClick={handleLogout}>Logout</button>
           </span>
         </>
       )}

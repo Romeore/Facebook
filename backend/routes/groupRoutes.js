@@ -5,11 +5,10 @@ const auth = require("../middleware/auth");
 
 // Create a group
 router.post("/", auth, async (req, res) => {
-  const { name, description, isPrivate } = req.body;
+  const { name, description } = req.body;
   const group = await Group.create({
     name,
     description,
-    isPrivate,
     admin: req.username,
     members: [req.username]
   });
@@ -130,5 +129,21 @@ router.get("/my", auth, async (req, res) => {
   const groups = await Group.find({ members: req.username });
   res.json(groups);
 });
+
+router.get("/top-members", auth, async (req, res) => {
+  const groups = await Group.aggregate([
+    {
+      $project: {
+        name: 1,
+        memberCount: { $size: "$members" }
+      }
+    },
+    { $sort: { memberCount: -1 } },
+    { $limit: 10 }
+  ]);
+
+  res.json(groups);
+});
+
 
 module.exports = router;

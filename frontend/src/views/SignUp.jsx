@@ -12,9 +12,13 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (password.length < 6) {
+      return alert("Password must be at least 6 characters long");
+    }
+
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password);
-
       await updateProfile(result.user, { displayName: username });
 
       await axios.post("http://localhost:5000/api/users/sync", {
@@ -22,12 +26,18 @@ function SignUp() {
         username
       });
 
-      // 4. Redirect to home
       navigate("/");
     } catch (err) {
-      alert("Sign up failed: " + err.message);
+      if (err.code === "auth/email-already-in-use") {
+        alert("This email is already in use.");
+      } else if (err.response?.data?.message === "Username already exists") {
+        alert("This username is already taken.");
+      } else {
+        alert("Sign up failed: " + err.message);
     }
-  };
+  }
+};
+
 
   return (
     <div style={{ maxWidth: "400px", margin: "auto", padding: "2rem" }}>
