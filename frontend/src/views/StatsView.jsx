@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import $ from "jquery";
+import "./StatsView.css";
 
 function StatsView({ username }) {
   const [dailyData, setDailyData] = useState([]);
@@ -10,7 +11,6 @@ function StatsView({ username }) {
   const pieRef = useRef();
 
   useEffect(() => {
-    // Fetch posts per day
     $.ajax({
       url: "http://localhost:5000/api/posts/stats",
       headers: { username },
@@ -18,7 +18,6 @@ function StatsView({ username }) {
       error: console.error
     });
 
-    // Fetch top 10 groups by member count
     $.ajax({
       url: "http://localhost:5000/api/groups/top-members",
       headers: { username },
@@ -27,14 +26,13 @@ function StatsView({ username }) {
     });
   }, [username]);
 
-  // 📊 Bar chart: total posts per day
   useEffect(() => {
     if (dailyData.length === 0) return;
 
     const svg = d3.select(barRef.current);
     svg.selectAll("*").remove();
 
-    const width = 800;
+    const width = 400;
     const height = 400;
     svg.attr("width", width).attr("height", height);
 
@@ -50,21 +48,18 @@ function StatsView({ username }) {
       .nice()
       .range([height - 30, 20]);
 
-    svg
-      .append("g")
+    svg.append("g")
       .attr("transform", `translate(0, ${height - 30})`)
       .call(d3.axisBottom(xScale).tickFormat(d => d.slice(5)))
       .selectAll("text")
       .attr("transform", "rotate(-45)")
       .style("text-anchor", "end");
 
-    svg
-      .append("g")
+    svg.append("g")
       .attr("transform", `translate(50, 0)`)
       .call(d3.axisLeft(yScale));
 
-    svg
-      .selectAll(".bar")
+    svg.selectAll(".bar")
       .data(dailyData)
       .join("rect")
       .attr("x", d => xScale(d.day))
@@ -74,15 +69,14 @@ function StatsView({ username }) {
       .attr("fill", "steelblue");
   }, [dailyData]);
 
-  // 🧩 Pie chart: top 10 groups by member count
   useEffect(() => {
     if (topByMembers.length === 0) return;
 
     const svg = d3.select(pieRef.current);
     svg.selectAll("*").remove();
 
-    const width = 400;
-    const height = 400;
+    const width = 600;
+    const height = 600;
     const radius = Math.min(width, height) / 2;
     svg.attr("width", width).attr("height", height);
 
@@ -109,12 +103,18 @@ function StatsView({ username }) {
   }, [topByMembers]);
 
   return (
-    <div>
-      <h2>Total Posts Per Day</h2>
-      <svg ref={barRef}></svg>
+    <div className="stats-container">
+      <div className="charts-row">
+        <div className="chart-block">
+          <h2>Total Posts Per Day</h2>
+          <svg ref={barRef}></svg>
+        </div>
 
-      <h2 style={{ marginTop: "3rem" }}>Top 10 Groups by Member Count</h2>
-      <svg ref={pieRef}></svg>
+        <div className="chart-block">
+          <h2>Top 10 Groups by Member Count</h2>
+          <svg ref={pieRef}></svg>
+        </div>
+      </div>
     </div>
   );
 }

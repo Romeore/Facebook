@@ -1,0 +1,34 @@
+.stocks-container {
+  padding: 2rem;
+  background-color: #f7f7f7;
+}
+
+.stocks-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.stocks-table th, .stocks-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.stocks-table th {
+  background-color: #1877f2;
+  color: white;
+}
+
+.up {
+  color: green;
+  font-weight: bold;
+}
+
+.down {
+  color: red;
+  font-weight: bold;
+}

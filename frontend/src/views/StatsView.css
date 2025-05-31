@@ -1,0 +1,27 @@
+.stats-container {
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+.charts-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14rem;
+}
+
+.chart-block {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 2rem;
+  background-color: #f0f2f5;
+  width: 620px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.chart-block h2 {
+  color: #1877f2;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}

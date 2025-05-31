@@ -1,0 +1,67 @@
+.posts-container {
+  padding: 2rem;
+}
+
+.posts-title {
+  color: #1877f2;
+  margin-bottom: 1.5rem;
+}
+
+.posts-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.post-card {
+  flex: 1 1 calc(50% - 1rem);
+  max-width: calc(50% - 1rem);
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.post-card textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.post-card input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.post-meta {
+  font-style: italic;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.post-buttons {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.post-buttons button {
+  background-color: #1877f2;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.post-buttons button:hover {
+  background-color: #145dbf;
+}

@@ -9,8 +9,10 @@ import FeedView from "./views/FeedView";
 import PostsView from "./views/PostsView";
 import GroupsView from "./views/GroupsView";
 import CreatePostView from "./views/CreatePostView";
-import StatsView from "./views/StatsView"; // <-- added
+import StatsView from "./views/StatsView";
+import StocksView from "./views/StocksView";
 import Navbar from "./components/NavBar";
+import './App.css';
 
 const ProtectedRoute = ({ children, setUser }) => {
   const { currentUser } = useAuth();
@@ -82,6 +84,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+         <Route path="/stocks" element={<StocksView />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -1,0 +1,99 @@
+.groups-container {
+  padding: 1rem;
+}
+
+.group-create input {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  width: 250px;
+}
+
+.group-create button {
+  padding: 0.5rem 1rem;
+  background-color: #1877f2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.group-search {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  width: 300px;
+}
+
+.group-list {
+  column-count: 2;
+  gap: 1rem;
+}
+
+.group-card {
+  break-inside: avoid;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  background-color: #f7f7f7;
+}
+
+.group-card button {
+  margin-right: 0.5rem;
+  margin-top: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #1877f2;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.group-card button:hover {
+  background-color: #145dbf;
+}
+
+.admin-toggle-btn {
+  margin-top: 0.5rem;
+}
+
+.delete-button {
+  background-color: red !important;
+  color: white !important;
+  margin-top: 1rem;
+}
+
+.transfer-section {
+  margin-top: 1rem;
+}
+
+.transfer-label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.transfer-block {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.3rem;
+}
+
+.transfer-block select {
+  padding: 0.4rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.pending-request-item {
+  display: list-item;        
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.pending-request-item > * {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}

@@ -1,0 +1,99 @@
+
+body {
+  font-family: 'FBFont', sans-serif;
+  background-color: #f0f2f5; /* Facebook background */
+  margin: 0;
+  padding: 0;
+  color: #050505;
+}
+
+/* Navbar styling */
+nav {
+  background-color: #1877f2; /* Facebook blue */
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+nav a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease; /* CSS3 transition */
+}
+
+nav a:hover {
+  color: #d0e2ff;
+}
+
+nav span {
+  margin-left: auto;
+  color: white;
+}
+
+/* Buttons */
+button {
+  background-color: #1877f2;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px; /* CSS3 border-radius */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #165cdb;
+}
+
+/* Input fields */
+input {
+  padding: 0.6rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Form container (used in SignUp / SignIn) */
+.form-container {
+  background-color: white;
+  padding: 2rem;
+  max-width: 400px;
+  margin: 2rem auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Section cards like posts or groups */
+.card {
+  background: white;
+  padding: 1rem;
+  margin: 1rem auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* Headings with text-shadow */
+h1, h2, h3 {
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.1); /* CSS3 text-shadow */
+}
+
+/* Columns layout for groups */
+.columns {
+  column-count: 2; /* CSS3 multiple-columns */
+  column-gap: 1.5rem;
+}
+
+.columns .card {
+  break-inside: avoid;
+}

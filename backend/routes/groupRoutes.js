@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Group = require("../models/Group");
 const auth = require("../middleware/auth");
+const Post = require("../models/Post");
 
-// Create a group
 router.post("/", auth, async (req, res) => {
   const { name, description } = req.body;
   const group = await Group.create({
@@ -23,7 +23,6 @@ router.post("/:id/approve", auth, async (req, res) => {
     return res.status(403).json({ message: "Only admin can approve members" });
   }
 
-  // Move from pending to members
   group.pending = group.pending.filter(user => user !== userToApprove);
   if (!group.members.includes(userToApprove)) {
     group.members.push(userToApprove);
@@ -42,13 +41,12 @@ router.post("/:id/remove", auth, async (req, res) => {
   }
 
   group.members = group.members.filter(user => user !== userToRemove);
-  group.pending = group.pending.filter(user => user !== userToRemove); // Just in case
+  group.pending = group.pending.filter(user => user !== userToRemove);
 
   await group.save();
   res.json({ message: "User removed", members: group.members });
 });
 
-// Join a group
 router.post("/:id/join", auth, async (req, res) => {
   const group = await Group.findById(req.params.id);
   if (!group) return res.status(404).json({ message: "Group not found" });
@@ -121,9 +119,13 @@ router.delete("/:id", auth, async (req, res) => {
     return res.status(403).json({ message: "Only the admin can delete the group" });
   }
 
+  await Post.deleteMany({ group: group._id });
+
   await group.deleteOne();
-  res.json({ message: "Group deleted" });
+
+  res.json({ message: "Group and related posts deleted" });
 });
+
 
 router.get("/my", auth, async (req, res) => {
   const groups = await Group.find({ members: req.username });

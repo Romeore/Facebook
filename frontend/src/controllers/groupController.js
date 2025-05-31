@@ -112,7 +112,7 @@ export const deleteGroup = async (groupId, username) => {
   return new Promise((resolve, reject) => {
     $.ajax({
       url: `${BASE_URL}/${groupId}`,
-      method: "PUT",
+      method: "DELETE",
       headers: { username },
       contentType: "application/json",
       success: resolve,

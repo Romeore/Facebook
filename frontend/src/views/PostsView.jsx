@@ -4,6 +4,7 @@ import {
   updatePost,
   deletePost
 } from "../controllers/postController";
+import "./PostsView.css";
 
 function PostsView({ username }) {
   const [posts, setPosts] = useState([]);
@@ -35,25 +36,17 @@ function PostsView({ username }) {
   };
 
   return (
-    <div>
-      <h2>My Posts</h2>
+    <div className="posts-container">
+      <h2 className="posts-title">My Posts</h2>
 
       {posts.length === 0 ? (
         <p>You haven’t posted anything yet.</p>
       ) : (
-        <div style={{ columnCount: 2, gap: "1rem", marginTop: "2rem" }}>
+        <div className="posts-list">
           {posts.map((p) => (
-            <div
-              key={p._id}
-              style={{
-                border: "1px solid #ccc",
-                borderRadius: "12px",
-                padding: "1rem",
-                marginBottom: "1rem"
-              }}
-            >
+            <div key={p._id} className="post-card">
               {editingPostId === p._id ? (
-                <div>
+                <div className="edit-form">
                   <input
                     value={editTitle}
                     onChange={(e) => setEditTitle(e.target.value)}
@@ -64,21 +57,24 @@ function PostsView({ username }) {
                     onChange={(e) => setEditContent(e.target.value)}
                     placeholder="Content"
                     rows={4}
-                    style={{ width: "100%" }}
                   />
-                  <button onClick={handleUpdate}>Save</button>
-                  <button onClick={() => setEditingPostId(null)}>Cancel</button>
+                  <div className="post-buttons">
+                    <button onClick={handleUpdate}>Save</button>
+                    <button onClick={() => setEditingPostId(null)}>Cancel</button>
+                  </div>
                 </div>
               ) : (
                 <>
-                  <strong>{p.title}</strong>
+                  <h3>{p.title}</h3>
                   <p>{p.content}</p>
-                  <p style={{ fontSize: "0.8rem", fontStyle: "italic" }}>
+                  <p className="post-meta">
                     Posted in{" "}
                     {p.group ? <strong>{p.group.name}</strong> : <em>Personal Post</em>}
                   </p>
-                  <button onClick={() => handleEdit(p)}>Edit</button>
-                  <button onClick={() => handleDelete(p._id)}>Delete</button>
+                  <div className="post-buttons">
+                    <button onClick={() => handleEdit(p)}>Edit</button>
+                    <button onClick={() => handleDelete(p._id)}>Delete</button>
+                  </div>
                 </>
               )}
             </div>

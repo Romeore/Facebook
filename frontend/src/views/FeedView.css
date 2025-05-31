@@ -1,0 +1,49 @@
+.feed-container {
+  padding: 2rem;
+}
+
+.feed-title {
+  color: #1877f2;
+  margin-bottom: 1.5rem;
+}
+
+.feed-filters {
+  margin-bottom: 1rem;
+}
+
+.feed-filters input {
+  margin-right: 0.5rem;
+  padding: 0.4rem;
+}
+
+.feed-filters button {
+  background-color: #1877f2;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.feed-posts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.feed-post-card {
+  flex: 1 1 calc(50% - 1rem);
+  max-width: calc(50% - 1rem);
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.feed-meta {
+  font-style: italic;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}

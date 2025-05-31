@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/fireBaseDB";
+import "./Navbar.css";
 
 function Navbar() {
   const { currentUser } = useAuth();
@@ -12,7 +13,7 @@ function Navbar() {
   };
 
   return (
-    <nav style={{ display: "flex", gap: "1rem", padding: "1rem", background: "#eee" }}>
+    <nav className="navbar">
       {currentUser && (
         <>
           <Link to="/">Home</Link>
@@ -21,7 +22,8 @@ function Navbar() {
           <Link to="/create">Create Post</Link>
           <Link to="/groups">Groups</Link>
           <Link to="/stats">Stats</Link>
-          <span style={{ marginLeft: "auto" }}>
+          <Link to="/stocks">Stocks</Link>
+          <span className="navbar-user">
             {currentUser.displayName || currentUser.email} |{" "}
             <button onClick={handleLogout}>Logout</button>
           </span>

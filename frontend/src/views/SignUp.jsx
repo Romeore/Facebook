@@ -40,7 +40,7 @@ function SignUp() {
 
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", padding: "2rem" }}>
+    <div className="form-container">
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <input
