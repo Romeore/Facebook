@@ -4,6 +4,41 @@ const Post = require("../models/Post");
 const auth = require("../middleware/auth");
 const Group = require("../models/Group");
 
+// Edit a post
+router.put("/:id", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    if (post.author !== req.username)
+      return res.status(403).json({ message: "Not authorized" });
+
+    post.title = req.body.title || post.title;
+    post.content = req.body.content || post.content;
+    await post.save();
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Delete a post
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    if (post.author !== req.username)
+      return res.status(403).json({ message: "Not authorized" });
+
+    await post.deleteOne();
+    res.json({ message: "Post deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 router.post("/", auth, async (req, res) => {
   const { title, content, group } = req.body;
   console.log(req.body);

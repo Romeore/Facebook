@@ -25,3 +25,17 @@ export const getFeedPosts = async (username, filters = {}) => {
   });
   return res.data;
 };
+
+export const updatePost = async (postId, data, username) => {
+  const response = await axios.put(`${API_URL}/${postId}`, data, {
+    headers: { username }
+  });
+  return response.data;
+};
+
+export const deletePost = async (postId, username) => {
+  const response = await axios.delete(`${API_URL}/${postId}`, {
+    headers: { username }
+  });
+  return response.data;
+};
