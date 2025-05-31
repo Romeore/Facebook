@@ -3,8 +3,8 @@ const router = express.Router();
 const Post = require("../models/Post");
 const auth = require("../middleware/auth");
 const Group = require("../models/Group");
+const User = require("../models/User");
 
-// Edit a post
 router.put("/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -22,7 +22,6 @@ router.put("/:id", auth, async (req, res) => {
   }
 });
 
-// Delete a post
 router.delete("/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -40,21 +39,17 @@ router.delete("/:id", auth, async (req, res) => {
 
 router.post("/", auth, async (req, res) => {
   const { title, content, group } = req.body;
-  console.log(req.body);
   const post = await Post.create({ title, content, author: req.username, group });
-  console.log("Post:\r\n");
-  console.log(post);
+  await User.updateOne({ username: req.username }, { $inc: { coins: 2 } });
+
   res.status(201).json(post);
 });
 
-// api/posts
 router.get("/", auth, async (req, res) => {
   const posts = await Post.find({ author: req.headers.username }).populate("group", "name");
   res.json(posts);
 });
 
-// Feed -> posts from all groups  
-// api/posts/feed
 router.get("/feed", auth, async (req, res) => {
   const { groupName, author, title } = req.query;
 
@@ -87,7 +82,6 @@ router.get("/feed", auth, async (req, res) => {
   res.json(posts);
 });
 
-// GET /api/posts/stats
 router.get("/stats", auth, async (req, res) => {
   const stats = await Post.aggregate([
     {

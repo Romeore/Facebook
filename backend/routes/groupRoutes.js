@@ -3,6 +3,7 @@ const router = express.Router();
 const Group = require("../models/Group");
 const auth = require("../middleware/auth");
 const Post = require("../models/Post");
+const User = require("../models/User");
 
 router.post("/", auth, async (req, res) => {
   const { name, description } = req.body;
@@ -61,6 +62,9 @@ router.post("/:id/join", auth, async (req, res) => {
 
   group.pending.push(req.username);
   await group.save();
+
+  await User.updateOne({ username: group.admin }, { $inc: { coins: 1 } });
+
   res.json({ message: "Join request sent", pending: group.pending });
 });
 
@@ -78,13 +82,11 @@ router.post("/:id/leave", auth, async (req, res) => {
   res.json({ message: "You left the group", members: group.members });
 });
 
-// List all groups
 router.get("/", auth, async (req, res) => {
   const groups = await Group.find();
   res.json(groups);
 });
 
-// List members
 router.get("/:id/members", auth, async (req, res) => {
   const group = await Group.findById(req.params.id);
   if (!group) return res.status(404).json({ message: "Group not found" });
@@ -105,7 +107,7 @@ router.put("/:id/transfer-admin", auth, async (req, res) => {
   }
 
   group.admin = newAdmin;
-  group.members = group.members.filter(user => user !== req.username); // remove old admin
+  group.members = group.members.filter(user => user !== req.username); 
   await group.save();
 
   res.json({ message: "Ownership transferred", group });

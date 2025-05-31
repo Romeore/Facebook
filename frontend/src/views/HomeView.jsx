@@ -7,7 +7,7 @@ function HomeView() {
       <div className="home-left">
         <h1 className="home-title">Welcome to Adi and Alon Facebook</h1>
         <p className="home-subtitle">
-         The best social media platform
+          The best social media platform
         </p>
         <ul className="home-features">
           <li>Create posts</li>
@@ -17,14 +17,7 @@ function HomeView() {
 
       <div className="home-right">
         <div className="video-box">
-          <iframe
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            title="Intro Video"
-            frameBorder="0"
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-          ></iframe>
-        </div>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/KJwYBJMSbPI?si=tIDN977JIHTBmQ3L&amp;start=398" title="Introduction to facebook" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>        </div>
       </div>
     </div>
   );

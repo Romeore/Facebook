@@ -1,0 +1,31 @@
+.leaderboard-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: var(--card-bg, #fff);
+  color: var(--text-color, #000);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-container h2 {
+  text-align: center;
+  color: var(--primary-color, #007bff);
+  margin-bottom: 20px;
+}
+
+.leaderboard-container ol {
+  padding-left: 20px;
+}
+
+.leaderboard-container li {
+  font-size: 18px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color, #ddd);
+  display: flex;
+  justify-content: space-between;
+}
+
+.leaderboard-container li:last-child {
+  border-bottom: none;
+}

@@ -39,5 +39,13 @@ router.get("/by-email", async (req, res) => {
   res.json(user);
 });
 
+router.get("/leaderboard", async (req, res) => {
+  const topUsers = await User.find()
+    .sort({ coins: -1 })
+    .limit(10)
+    .select("username coins -_id");
+
+  res.json(topUsers);
+});
 
 module.exports = router;

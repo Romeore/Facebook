@@ -12,6 +12,7 @@ import CreatePostView from "./views/CreatePostView";
 import StatsView from "./views/StatsView";
 import StocksView from "./views/StocksView";
 import Navbar from "./components/NavBar";
+import LeaderboardView from "./views/LeaderboardView";
 import './App.css';
 
 const ProtectedRoute = ({ children, setUser }) => {
@@ -84,7 +85,8 @@ function App() {
               </ProtectedRoute>
             }
           />
-         <Route path="/stocks" element={<StocksView />} />
+          <Route path="/stocks" element={<StocksView />} />
+          <Route path="/leaderboard" element={<LeaderboardView />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
