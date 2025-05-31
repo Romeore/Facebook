@@ -1,72 +1,134 @@
-import axios from "axios";
+import $ from "jquery";
 
 const BASE_URL = "http://localhost:5000/api/groups";
 
 export const fetchGroups = async (username) => {
-  const res = await axios.get(BASE_URL, { headers: { username } });
-  return res.data;
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: BASE_URL,
+      method: "GET",
+      headers: { username },
+      success: resolve,
+      error: reject
+    });
+  });
 };
 
 export const createGroup = async (group, username) => {
-  const res = await axios.post(BASE_URL, group, { headers: { username } });
-  return res.data;
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: BASE_URL,
+      method: "POST",
+      headers: { username },
+      data: JSON.stringify(group),
+      contentType: "application/json",
+      success: resolve,
+      error: reject
+    });
+  });
 };
 
 export const joinGroup = async (groupId, username) => {
-  const res = await axios.post(`${BASE_URL}/${groupId}/join`, {}, { headers: { username } });
-  return res.data;
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `${BASE_URL}/${groupId}/join`,
+      method: "POST",
+      headers: { username },
+      contentType: "application/json",
+      success: resolve,
+      error: reject
+    });
+  });
 };
 
 export const getGroupMembers = async (groupId, username) => {
-  const res = await axios.get(`${BASE_URL}/${groupId}/members`, { headers: { username } });
-  return res.data.members;
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `${BASE_URL}/${groupId}/members`,
+      method: "GET",
+      headers: { username },
+      success: (data) => resolve(data.members),
+      error: reject
+    });
+  });
 };
 
 export const approveMember = async (groupId, userToApprove, username) => {
-  const res = await axios.post(`${BASE_URL}/${groupId}/approve`,
-    { userToApprove },
-    { headers: { username } }
-  );
-  return res.data;
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `${BASE_URL}/${groupId}/approve`,
+      method: "POST",
+      headers: { username },
+      data: JSON.stringify({ userToApprove }),
+      contentType: "application/json",
+      success: resolve,
+      error: reject
+    });
+  });
 };
 
 export const removeMember = async (groupId, userToRemove, username) => {
-  const res = await axios.post(`${BASE_URL}/${groupId}/remove`,
-    { userToRemove },
-    { headers: { username } }
-  );
-  return res.data;
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `${BASE_URL}/${groupId}/remove`,
+      method: "POST",
+      headers: { username },
+      data: JSON.stringify({ userToRemove }),
+      contentType: "application/json",
+      success: resolve,
+      error: reject
+    });
+  });
 };
 
 export const leaveGroup = async (groupId, username) => {
-  const res = await axios.post(`${BASE_URL}/${groupId}/leave`,
-    {},
-    { headers: { username } }
-  );
-  return res.data;
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `${BASE_URL}/${groupId}/leave`,
+      method: "POST",
+      headers: { username },
+      contentType: "application/json",
+      success: resolve,
+      error: reject
+    });
+  });
 };
 
 export const transferAdminAndLeave = async (groupId, newAdmin, username) => {
-  const res = await axios.put(`${BASE_URL}/${groupId}/transfer-admin`,
-    { newAdmin },
-    { headers: { username } }
-  );
-  return res.data;
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `${BASE_URL}/${groupId}/transfer-admin`,
+      method: "PUT",
+      headers: { username },
+      data: JSON.stringify({ newAdmin }),
+      contentType: "application/json",
+      success: resolve,
+      error: reject
+    });
+  });
 };
 
 export const deleteGroup = async (groupId, username) => {
-  const res = await axios.put(`${BASE_URL}/${groupId}`,
-    {
-      headers: { username }
-    }
-  );
-  return res.data;
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `${BASE_URL}/${groupId}`,
+      method: "PUT",
+      headers: { username },
+      contentType: "application/json",
+      success: resolve,
+      error: reject
+    });
+  });
 };
 
 export const fetchUserGroups = async (username) => {
-  const res = await axios.get(`${BASE_URL}/my`,
-    {
-    headers: { username }
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `${BASE_URL}/my`,
+      method: "GET",
+      headers: { username },
+      success: resolve,
+      error: reject
     });
-  return res.data;
+  });
 };
