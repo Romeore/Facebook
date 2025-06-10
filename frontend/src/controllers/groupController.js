@@ -132,3 +132,16 @@ export const fetchUserGroups = async (username) => {
     });
   });
 };
+
+export const getTopMembersOnGroups = async (username) => {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `${BASE_URL}/top-members`,
+      method: "GET",
+      headers: { username },
+      success: resolve,
+      error: reject
+    });
+  });
+};
+

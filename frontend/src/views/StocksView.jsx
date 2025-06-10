@@ -5,7 +5,6 @@ function StocksView() {
   const [stocks, setStocks] = useState([]);
 
   useEffect(() => {
-    // Mock data - replace with real API if needed
     setStocks([
       { name: "Meta (Facebook, Instagram, WhatsApp)", symbol: "META", price: 480.92, change: 1.23 },
       { name: "Snapchat", symbol: "SNAP", price: 10.11, change: -0.56 },

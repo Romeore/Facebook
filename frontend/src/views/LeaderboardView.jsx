@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-import $ from "jquery";
 import "./LeaderboardView.css";
+import { getLeaderboard } from "../controllers/userController";
 
 function LeaderboardView() {
   const [leaders, setLeaders] = useState([]);
 
   useEffect(() => {
-    $.ajax({
-      url: "http://localhost:5000/api/users/leaderboard",
-      method: "GET",
-      success: data => setLeaders(data),
-      error: err => console.error("Failed to load leaderboard:", err)
-    });
+    getLeaderboard().then(setLeaders)
   }, []);
 
   return (

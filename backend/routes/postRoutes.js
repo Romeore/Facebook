@@ -82,7 +82,7 @@ router.get("/feed", auth, async (req, res) => {
   res.json(posts);
 });
 
-router.get("/stats", auth, async (req, res) => {
+router.get("/stats", async (req, res) => {
   const stats = await Post.aggregate([
     {
       $group: {

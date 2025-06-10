@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import $ from "jquery";
 import "./StatsView.css";
+
+import { getPostStats } from "../controllers/postController";
+import { getTopMembersOnGroups } from "../controllers/groupController";
 
 function StatsView({ username }) {
   const [dailyData, setDailyData] = useState([]);
@@ -11,19 +13,9 @@ function StatsView({ username }) {
   const pieRef = useRef();
 
   useEffect(() => {
-    $.ajax({
-      url: "http://localhost:5000/api/posts/stats",
-      headers: { username },
-      success: setDailyData,
-      error: console.error
-    });
+    getPostStats(username).then(setDailyData);
 
-    $.ajax({
-      url: "http://localhost:5000/api/groups/top-members",
-      headers: { username },
-      success: setTopByMembers,
-      error: console.error
-    });
+    getTopMembersOnGroups(username).then(setTopByMembers);
   }, [username]);
 
   useEffect(() => {

@@ -67,3 +67,15 @@ export const deletePost = async (postId, username) => {
     });
   });
 };
+
+export const getPostStats = async (username) => {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `${API_URL}/stats`,
+      method: "GET",
+      headers: { username },
+      success: resolve,
+      error: reject
+    });
+  });
+}
